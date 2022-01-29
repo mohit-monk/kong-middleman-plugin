@@ -69,7 +69,7 @@ function _M.execute(conf)
 
   local line, err = sock:receive("*l")
 
-  if err then 
+  if err then
     ngx.log(ngx.ERR, name .. "failed to read response status from " .. host .. ":" .. tostring(port) .. ": ", err)
     return
   end
@@ -104,18 +104,18 @@ function _M.execute(conf)
   end
 
   if status_code > 299 then
-    if err then 
+    if err then
       ngx.log(ngx.ERR, name .. "failed to read response from " .. host .. ":" .. tostring(port) .. ": ", err)
     end
 
     local response_body
-    if conf.response == "table" then 
+    if conf.response == "table" then
       response_body = JSON:decode(string.match(body, "%b{}"))
     else
       response_body = string.match(body, "%b{}")
     end
 
-    return kong_response.send(status_code, response_body)
+    return kong_response.exit(status_code, response_body)
   end
 
 end
@@ -124,7 +124,7 @@ function _M.compose_payload(parsed_url)
     local headers = get_headers()
     local uri_args = get_uri_args()
     local next = next
-    
+
     read_body()
     local body_data = get_body()
 
@@ -137,13 +137,13 @@ function _M.compose_payload(parsed_url)
     else
       url = parsed_url.path
     end
-    
+
     local raw_json_headers = JSON:encode(headers)
     local raw_json_body_data = JSON:encode(body_data)
 
     local raw_json_uri_args
-    if next(uri_args) then 
-      raw_json_uri_args = JSON:encode(uri_args) 
+    if next(uri_args) then
+      raw_json_uri_args = JSON:encode(uri_args)
     else
       -- Empty Lua table gets encoded into an empty array whereas a non-empty one is encoded to JSON object.
       -- Set an empty object for the consistency.
@@ -151,11 +151,11 @@ function _M.compose_payload(parsed_url)
     end
 
     local payload_body = [[{"headers":]] .. raw_json_headers .. [[,"uri_args":]] .. raw_json_uri_args.. [[,"body_data":]] .. raw_json_body_data .. [[}]]
-    
+
     local payload_headers = string_format(
       "POST %s HTTP/1.1\r\nHost: %s\r\nConnection: Keep-Alive\r\nContent-Type: application/json\r\nContent-Length: %s\r\n",
       url, parsed_url.host, #payload_body)
-  
+
     return string_format("%s\r\n%s", payload_headers, payload_body)
 end
 
