@@ -9,7 +9,7 @@ version = "0.1.2-1"
 supported_platforms = {"linux", "macosx"}
 
 source = {
-  url = "git@github.com:mohit-monk/kong-middleman-plugin.git",
+  url = "https://github.com/mohit-monk/kong-middleman-plugin",
   tag = "0.1.2"
 }
 
