@@ -1,8 +1,8 @@
 package = "middleman"
 
-version = "0.1.7-1"
+version = "0.1.8-1"
 
--- The version '0.1.7' is the source code version, the trailing '1' is the version of this rockspec.
+-- The version '0.1.8' is the source code version, the trailing '1' is the version of this rockspec.
 -- whenever the source version changes, the rockspec should be reset to 1. The rockspec version is only
 -- updated (incremented) when this file changes, but the source remains the same.
 
@@ -10,7 +10,7 @@ supported_platforms = {"linux", "macosx"}
 
 source = {
   url = "git://github.com/mohit-monk/kong-middleman-plugin",
-  tag = "0.1.7"
+  tag = "0.1.8"
 }
 
 description = {
@@ -28,6 +28,6 @@ build = {
     ["kong.plugins.middleman.access"] = "src/access.lua",
     ["kong.plugins.middleman.handler"] = "src/handler.lua",
     ["kong.plugins.middleman.schema"] = "src/schema.lua",
-	  ["kong.plugins.middleman.json"] = "src/json.lua"
+    ["kong.plugins.middleman.json"] = "src/json.lua"
   }
 }

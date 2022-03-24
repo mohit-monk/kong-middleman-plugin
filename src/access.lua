@@ -115,7 +115,12 @@ function _M.execute(conf)
       response_body = string.match(body, "%b{}")
     end
 
-    return kong_response.exit(status_code, response_body)
+    return kong_response.exit(status_code, response_body, {
+                                                            ["Access-Control-Allow-Origin"] = "*",
+                                                            ["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS",
+                                                            ["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With",
+                                                            ["Access-Control-Max-Age"] = "1728000"
+                                                          })
   end
 
 end
